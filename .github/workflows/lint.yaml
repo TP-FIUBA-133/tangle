@@ -1,0 +1,31 @@
+name: Lint Vue Project
+
+on:
+  push:
+    branches: [main]
+  pull_request:  # Triggers on all PRs, regardless of target branch
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20  # Adjust to your Node.js version
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./frontend
+
+      - name: Run linter
+        run: npm run lint
+        working-directory: ./frontend
+
+      - name: Check code format
+        run: npx prettier --check src
+        working-directory: ./frontend
